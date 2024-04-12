@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Card(
-                color: Colors.black,
+                color: Pallete.blackBackgroundColor,
                 elevation: 5.0, // Adjust as needed
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0), // Adjust as needed

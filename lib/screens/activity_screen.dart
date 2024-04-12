@@ -36,6 +36,17 @@ class _ActivityScreenState extends State<ActivityScreen> {
     });
   }
 
+  String getLevel(String value) {
+    double val = double.parse(value);
+    if (val < 27) {
+      return 'low';
+    } else if (val < 66) {
+      return 'moderate';
+    } else {
+      return 'high';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,13 +77,13 @@ class _ActivityScreenState extends State<ActivityScreen> {
               return ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 children: <Widget>[
-                  ActivityCard(icon: Icons.thermostat, name: 'Temperature', value: snapshot.data!.temperature),
-                  ActivityCard(icon: Icons.water, name: 'Humidity', value: snapshot.data!.humidity),
-                  ActivityCard(icon: Icons.fire_extinguisher, name: 'LPG', value: snapshot.data!.lpg),
-                  ActivityCard(icon: Icons.smoke_free, name: 'Carbon Monoxide', value: snapshot.data!.carbonMonoxide),
-                  ActivityCard(icon: Icons.cloud, name: 'Nitrogen Oxide', value: snapshot.data!.nitrogenOxide),
-                  ActivityCard(icon: Icons.air, name: 'Air Quality Index', value: snapshot.data!.airQualityIndex),
-                  ActivityCard(icon: Icons.poll, name: 'Pollution Rate', value: snapshot.data!.pollutionRate),
+                  ActivityCard(icon: Icons.thermostat, name: 'Temperature', value: snapshot.data!.temperature, level: getLevel(snapshot.data!.temperature)),
+                  ActivityCard(icon: Icons.water, name: 'Humidity', value: snapshot.data!.humidity, level: getLevel(snapshot.data!.humidity)),
+                  ActivityCard(icon: Icons.fire_extinguisher, name: 'LPG', value: snapshot.data!.lpg, level: getLevel(snapshot.data!.lpg)),
+                  ActivityCard(icon: Icons.smoke_free, name: 'Carbon Monoxide', value: snapshot.data!.carbonMonoxide, level: getLevel(snapshot.data!.carbonMonoxide)),
+                  ActivityCard(icon: Icons.cloud, name: 'Nitrogen Oxide', value: snapshot.data!.nitrogenOxide, level: getLevel(snapshot.data!.nitrogenOxide)),
+                  ActivityCard(icon: Icons.air, name: 'Air Quality Index', value: snapshot.data!.airQualityIndex, level: getLevel(snapshot.data!.airQualityIndex)),
+                  ActivityCard(icon: Icons.poll, name: 'Pollution Rate', value: snapshot.data!.pollutionRate, level: getLevel(snapshot.data!.pollutionRate)),
                 ],
               );
             }

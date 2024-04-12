@@ -1,11 +1,10 @@
 import 'package:breatheclean_flutter/globals/pallete.dart';
 import 'package:breatheclean_flutter/screens/home_screen.dart';
+import 'package:breatheclean_flutter/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/bottom_navigation_provider.dart';
-import 'widgets/bottom_navigation_bar.dart';
-
 void main() {
   runApp(
     ChangeNotifierProvider(
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(), // Dark theme
       themeMode: ThemeMode.system, // Theme based on system setting
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(),
+      home: const SplashScreen(),
     );
   }
 }

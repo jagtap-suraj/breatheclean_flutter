@@ -52,6 +52,11 @@ class Pallete {
 
   static const Color whiteTextColor = Colors.white;
   static const Color blackTextColor = Colors.black;
+  static const Color lowValueColor = Colors.green;
+  // #ea580c
+  static const Color moderateValueColor = Color.fromRGBO(234, 88, 12, 1);
+  // #b91c1c
+  static const Color highValueColor = Color.fromRGBO(185, 28, 28, 1);
 
   static const Color color1 = Color(0xffffffff);
   static const Color color2 = Color(0xffe1e5f2);
