@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../globals/pallete.dart';
 import '../models/activity_model.dart';
@@ -19,6 +22,8 @@ class ActivityScreen extends StatefulWidget {
 class _ActivityScreenState extends State<ActivityScreen> {
   late Future<ActivityData> futureData;
   String appbarText = "Activities";
+  String createdAt = "";
+  double aqi = 0;
 
   @override
   void initState() {
@@ -27,12 +32,26 @@ class _ActivityScreenState extends State<ActivityScreen> {
   }
 
   Future<ActivityData> fetchData() async {
-    return await ApiService().fetchData();
+    var data = await ApiService().fetchData();
+    DateTime dateTime = DateTime.parse(data.createdAt);
+    String time = "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+    double airQualityIndex = double.parse(data.airQualityIndex);
+    setState(() {
+      createdAt = time;
+      aqi = airQualityIndex; // Update the class-level aqi variable
+    });
+    return data;
   }
 
   Future<void> refreshData() async {
+    var data = await fetchData();
     setState(() {
-      futureData = fetchData();
+      futureData = Future.value(data);
+      DateTime dateTime = DateTime.parse(data.createdAt);
+      String time = "${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
+      createdAt = time;
+      double airQualityIndex = double.parse(data.airQualityIndex);
+      aqi = airQualityIndex;
     });
   }
 
@@ -51,12 +70,49 @@ class _ActivityScreenState extends State<ActivityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          appbarText,
-          style: const TextStyle(
-            fontSize: 18,
-          ),
+        title: Row(
+          children: [
+            Text(
+              appbarText,
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            const Spacer(),
+            createdAt.isNotEmpty
+                ? Text(
+                    'Last Updated At: $createdAt',
+                    style: const TextStyle(
+                      fontSize: 12,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            // show a dialog onpressed with the text "info not available"
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Dialog(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4),
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(8.0),
+                      height: 200,
+                      child: const Text(
+                        'Info not available',
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: refreshData,
@@ -90,6 +146,51 @@ class _ActivityScreenState extends State<ActivityScreen> {
           },
         ),
       ),
+      floatingActionButton: aqi != 0
+          ? FloatingActionButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Center(
+                      child: Wrap(children: [
+                        Dialog(
+                          backgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4),
+                          child: SfRadialGauge(
+                            axes: <RadialAxis>[
+                              RadialAxis(
+                                minimum: 0,
+                                maximum: 200,
+                                ranges: <GaugeRange>[
+                                  GaugeRange(startValue: 0, endValue: 68, color: Colors.green),
+                                  GaugeRange(startValue: 68, endValue: 134, color: Colors.orange),
+                                  GaugeRange(startValue: 134, endValue: 200, color: Colors.red),
+                                ],
+                                pointers: <GaugePointer>[
+                                  NeedlePointer(
+                                    value: aqi,
+                                    enableAnimation: true,
+                                    animationDuration: 1000,
+                                    needleLength: 0.6,
+                                    knobStyle: const KnobStyle(knobRadius: 0.09, sizeUnit: GaugeSizeUnit.factor),
+                                  )
+                                ],
+                                annotations: <GaugeAnnotation>[
+                                  const GaugeAnnotation(widget: Text('Air Quality Index'), angle: 90, positionFactor: 0.5),
+                                  GaugeAnnotation(widget: Text(aqi.truncate().toString()), angle: 90, positionFactor: 0.62),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                    );
+                  },
+                );
+              },
+              child: const Icon(Icons.speed),
+            )
+          : null,
       bottomNavigationBar: Consumer<BottomNavProvider>(
         builder: (context, bottomNavProvider, child) {
           return BottomNavigationBar(
@@ -104,7 +205,6 @@ class _ActivityScreenState extends State<ActivityScreen> {
               ),
             ],
             currentIndex: bottomNavProvider.currentIndex,
-            selectedItemColor: Pallete.navigationButtonOn,
             onTap: (index) {
               bottomNavProvider.changeIndex(index);
               if (index == 0) {

@@ -112,7 +112,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
             currentIndex: bottomNavProvider.currentIndex,
-            selectedItemColor: Pallete.navigationButtonOn,
             onTap: (index) {
               bottomNavProvider.changeIndex(index);
               if (index == 1) {

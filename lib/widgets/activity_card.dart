@@ -35,7 +35,7 @@ class ActivityCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(1.0),
         child: ListTile(
           leading: Icon(
             icon,

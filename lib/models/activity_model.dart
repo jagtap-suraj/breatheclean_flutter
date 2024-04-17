@@ -1,4 +1,5 @@
 class ActivityData {
+  final String createdAt;
   final String temperature;
   final String humidity;
   final String lpg;
@@ -8,6 +9,7 @@ class ActivityData {
   final String pollutionRate;
 
   ActivityData({
+    required this.createdAt,
     required this.temperature,
     required this.humidity,
     required this.lpg,
@@ -19,6 +21,7 @@ class ActivityData {
 
   factory ActivityData.fromJson(Map<String, dynamic> json) {
     return ActivityData(
+      createdAt: json['created_at'],
       temperature: json['field1'],
       humidity: json['field2'],
       lpg: json['field3'],
