@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AboutUsCard extends StatelessWidget {
   final String imagePath;
   final String content;
 
-  AboutUsCard({required this.imagePath, required this.content});
+  const AboutUsCard({super.key, required this.imagePath, required this.content});
 
   @override
   Widget build(BuildContext context) {
+    //get the screen width using MediaQuery
+    final screenWidth = MediaQuery.of(context).size.width;
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
@@ -29,12 +30,14 @@ class AboutUsCard extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            SizedBox(
-              width: 320,
-              child: Text(
-                content,
-                style: TextStyle(fontSize: 16),
-                textAlign: TextAlign.justify,
+            Expanded(
+              child: SizedBox(
+                width: screenWidth * 0.8,
+                child: Text(
+                  content,
+                  style: const TextStyle(fontSize: 16),
+                  textAlign: TextAlign.justify,
+                ),
               ),
             ),
           ],

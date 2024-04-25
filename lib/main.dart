@@ -1,15 +1,18 @@
-import 'package:breatheclean_flutter/globals/pallete.dart';
-import 'package:breatheclean_flutter/screens/home_screen.dart';
 import 'package:breatheclean_flutter/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/bottom_navigation_provider.dart';
+import 'providers/webview_option_provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => BottomNavProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => BottomNavProvider()),
+        ChangeNotifierProvider(create: (_) => WebViewOptionProvider()),
+      ],
       child: const MyApp(),
     ),
   );

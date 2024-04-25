@@ -1,34 +1,23 @@
 class ActivityData {
   final String createdAt;
-  final String temperature;
-  final String humidity;
-  final String lpg;
-  final String carbonMonoxide;
-  final String nitrogenOxide;
-  final String airQualityIndex;
-  final String pollutionRate;
+  final Map<String, String> data;
 
   ActivityData({
     required this.createdAt,
-    required this.temperature,
-    required this.humidity,
-    required this.lpg,
-    required this.carbonMonoxide,
-    required this.nitrogenOxide,
-    required this.airQualityIndex,
-    required this.pollutionRate,
+    required this.data,
   });
 
   factory ActivityData.fromJson(Map<String, dynamic> json) {
+    final data = <String, String>{};
+    json.forEach((key, value) {
+      if (key != 'created_at' && key != 'entry_id') {
+        data[key] = value?.toString() ?? '';
+      }
+    });
+
     return ActivityData(
-      createdAt: json['created_at'],
-      temperature: json['field1'],
-      humidity: json['field2'],
-      lpg: json['field3'],
-      carbonMonoxide: json['field4'],
-      nitrogenOxide: json['field5'],
-      airQualityIndex: json['field6'],
-      pollutionRate: json['field7'],
+      createdAt: json['created_at'] ?? '',
+      data: data,
     );
   }
 }

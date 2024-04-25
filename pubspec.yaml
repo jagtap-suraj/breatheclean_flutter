@@ -36,6 +36,7 @@ dependencies:
   intro_slider: ^4.2.1
   provider: ^6.1.2
   syncfusion_flutter_gauges: ^25.1.39
+  webview_flutter: ^4.7.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1

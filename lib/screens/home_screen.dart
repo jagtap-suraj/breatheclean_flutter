@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/bottom_navigation_provider.dart';
+import '../providers/webview_option_provider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -28,74 +29,76 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'BreatheClean',
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const Text(
+                'BreatheClean',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const Text(
-              'Your Daily Air Quality Companion',
-              style: TextStyle(
-                fontSize: 18,
+              const Text(
+                'Your Daily Air Quality Companion',
+                style: TextStyle(
+                  fontSize: 18,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AboutUs()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                elevation: 5, // Adjust as needed
+              const SizedBox(
+                height: 20,
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min, // Set the Row size to the minimum
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.all(2.0), // Add padding if needed
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AboutUs()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 5, // Adjust as needed
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min, // Set the Row size to the minimum
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.all(2.0), // Add padding if needed
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.info_rounded,
+                        size: 20.0, // Adjust as needed
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.info_rounded,
-                      size: 20.0, // Adjust as needed
-                    ),
+                    const SizedBox(width: 10.0), // Add space between the icon and text
+                    const Text('About Us'),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 80,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Card(
+                  color: Pallete.blackBackgroundColor,
+                  elevation: 5.0, // Adjust as needed
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0), // Adjust as needed
                   ),
-                  const SizedBox(width: 10.0), // Add space between the icon and text
-                  const Text('About Us'),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 80,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Card(
-                color: Pallete.blackBackgroundColor,
-                elevation: 5.0, // Adjust as needed
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0), // Adjust as needed
+                  child: Image.asset(
+                    'assets/images/test2.png',
+                    width: 400,
+                    height: 400,
+                  ),
                 ),
-                child: Image.asset(
-                  'assets/images/test2.png',
-                  width: 400,
-                  height: 400,
-                ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Consumer<BottomNavProvider>(
